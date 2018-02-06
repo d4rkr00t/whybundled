@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.3.0",
-    "table": "^4.0.2"
+    "table": "^4.0.2",
+    "treeify": "^1.0.1"
   }
 }
