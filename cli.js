@@ -9,11 +9,8 @@ const { pkg, input, flags } = meow({
 
 const start = Date.now();
 
-console.log("input: ", input);
-console.log("flags: ", flags);
-
 if (input[0].match(".json")) {
-  defaultCommand(input[0], flags);
+  defaultCommand(input[0], flags, input[1]);
 }
 
 const timing = (Date.now() - start) / 1000;
@@ -22,11 +19,11 @@ console.log(`🏁  Done in ${rounded}s.`);
 
 /**
  * default:
- * – input: stats.json
+ * – input: stats.json pattern?
  * – flags:
  *   --modulesOnly [x]
  *   --directOnly [x]
  *   --transitiveOnly [x]
- *   --duplicatesOnly
- *   --filesOnly
+ *   --duplicatesOnly [x]
+ *   --filesOnly [x]
  */
