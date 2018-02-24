@@ -1,12 +1,8 @@
-const path = require("path");
 const mm = require("micromatch");
-const { analyze, print } = require("../lib");
-
-const getAbsoultePath = statsPath =>
-  path.isAbsolute(statsPath) ? statsPath : path.join(process.cwd(), statsPath);
+const { analyze, print, getStats } = require("../lib");
 
 module.exports = function defaultCommand(statsFilePath, flags, pattern) {
-  const stats = require(getAbsoultePath(statsFilePath));
+  const stats = getStats(statsFilePath);
   const report = analyze(stats).filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
       return true;
