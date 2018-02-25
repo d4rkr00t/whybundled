@@ -23,7 +23,7 @@
   </a>
 
   <a href="https://travis-ci.org/d4rkr00t/whybundled">
-    <img src="https://img.shields.io/travis/d4rkr00t/whybunlded.svg" alt="Travis Status">
+    <img src="https://img.shields.io/travis/d4rkr00t/whybundled.svg" alt="Travis Status">
   </a>
 
   <a href="http://commitizen.github.io/cz-cli/">
