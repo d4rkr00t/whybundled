@@ -9,6 +9,30 @@
   <br/>
 </div>
 
+<p align="center">
+  <a href="https://npmjs.org/package/whybundled">
+    <img src="https://img.shields.io/npm/v/whybundled.svg" alt="NPM Version">
+  </a>
+
+  <a href="http://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/npm/l/whybundled.svg" alt="License">
+  </a>
+
+  <a href="https://github.com/d4rkr00t/whybundled/issues">
+    <img src="https://img.shields.io/github/issues/d4rkr00t/whybundled.svg" alt="Github Issues">
+  </a>
+
+  <a href="https://travis-ci.org/d4rkr00t/whybundled">
+    <img src="https://img.shields.io/travis/d4rkr00t/whybunlded.svg" alt="Travis Status">
+  </a>
+
+  <a href="http://commitizen.github.io/cz-cli/">
+    <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen Friendly">
+  </a>
+</p>
+<br/>
+<br/>
+
 Ever wondered why any particular module ended up in a bundle? WhyBundled is here to answer exactly this question.
 
 It's meant to be used alognside [stats report from webpack](https://webpack.js.org/api/stats/).
