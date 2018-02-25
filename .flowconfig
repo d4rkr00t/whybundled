@@ -1,0 +1,5 @@
+[ignore]
+.*/.nyc_output/.*
+.*/.vscode/.*
+.*/assets/.*
+.*/node_modules/.*

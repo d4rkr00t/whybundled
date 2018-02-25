@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* @flow */
 
 const meow = require("meow");
 const defaultCommand = require("./commands/default");

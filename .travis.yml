@@ -13,6 +13,7 @@ before_script:
 install:
   - npm install
 script:
+  - npm tun ci:validate
   - npm run test
 after_success:
   - npm run ci:github-release

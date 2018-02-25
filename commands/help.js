@@ -1,3 +1,5 @@
+/* @flow */
+
 const chalk = require("chalk");
 
 module.exports = function help() {

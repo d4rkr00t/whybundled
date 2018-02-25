@@ -1,7 +1,25 @@
+/* @flow */
+
 const mm = require("micromatch");
 const { analyze, print, getStats } = require("../lib");
 
-module.exports = function defaultCommand(statsFilePath, flags, pattern) {
+/*::
+type Flags = {
+  limit: number,
+  filesOnly?: boolean,
+  modulesOnly?: boolean,
+  directOnly?: boolean,
+  transitiveOnly?: boolean,
+  duplicatesOnly?: boolean,
+  by?: string
+}
+*/
+
+module.exports = function defaultCommand(
+  statsFilePath /*: string */,
+  flags /*: Flags */,
+  pattern /*: string*/
+) {
   const stats = getStats(statsFilePath);
   const report = analyze(stats).filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
