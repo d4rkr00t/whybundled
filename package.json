@@ -1,7 +1,8 @@
 {
   "name": "whybundled",
   "version": "1.0.0",
-  "description": "",
+  "description":
+    "Answers the question – Why the hell is this module in a bundle?",
   "bin": "./cli.js",
   "main": "lib/index.js",
   "scripts": {
