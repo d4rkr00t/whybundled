@@ -13,7 +13,11 @@
     "ci:github-release": "conventional-github-releaser -p angular",
     "test": "echo \"No test specified\" && exit 0",
     "lint:staged": "lint-staged",
-    "lint:flow": "flow"
+    "lint:flow": "flow",
+    "prepare": "npm run ci:validate",
+    "release:major": "pmm major",
+    "release:minor": "pmm minor",
+    "release:patch": "pmm patch"
   },
   "pre-commit": ["lint:flow", "lint:staged", "test"],
   "lint-staged": {
