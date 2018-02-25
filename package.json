@@ -1,8 +1,7 @@
 {
   "name": "whybundled",
-  "version": "0.0.0",
-  "description":
-    "Answers the question – Why the hell is this module in a bundle?",
+  "version": "1.0.0",
+  "description": "Answers the question – Why the hell is this module in a bundle?",
   "bin": "./cli.js",
   "main": "lib/index.js",
   "engines": {
@@ -19,9 +18,16 @@
     "release:minor": "pmm minor",
     "release:patch": "pmm patch"
   },
-  "pre-commit": ["lint:flow", "lint:staged", "test"],
+  "pre-commit": [
+    "lint:flow",
+    "lint:staged",
+    "test"
+  ],
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "keywords": [
     "webpack",
