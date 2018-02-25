@@ -1,5 +1,9 @@
 <div align="center">
-  <img src="./assets/logo.png" alt="whybundled" width="400" align="center">
+  <br/>
+  <br/>
+  <img src="./assets/logo.png" alt="whybundled" width="600" align="center">
+  <br/>
+  <br/>
   <br/>
   <br/>
   <br/>
