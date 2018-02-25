@@ -1,0 +1,18 @@
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+node_js:
+  - "6"
+  - "8"
+  - "9"
+before_script:
+  - npm prune
+install:
+  - npm install
+script:
+  - npm run test
+after_success:
+  - npm run ci:github-release
