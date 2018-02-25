@@ -7,9 +7,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "webpack",
+    "bundle",
+    "analyzer",
+    "modules",
+    "size",
+    "dependencies"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "chalk": "^2.3.0",
     "meow": "^4.0.0",

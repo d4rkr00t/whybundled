@@ -11,7 +11,7 @@ module.exports = function defaultCommand(statsFilePath, flags, pattern) {
     }
 
     if (flags.filesOnly && module.type !== "file") return false;
-    if (flags.moduleOnly && module.type !== "module") return false;
+    if (flags.modulesOnly && module.type !== "module") return false;
 
     if (flags.directOnly && module.depsType !== "direct") return false;
     if (flags.transitiveOnly && module.depsType !== "transitive") return false;
