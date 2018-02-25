@@ -9,9 +9,9 @@
   <br/>
 </div>
 
-Ever wondered why any particular module ended up in a resulting bundle? WhyBundled is here to answer exactly this question.
+Ever wondered why any particular module ended up in a bundle? WhyBundled is here to answer exactly this question.
 
-It is meant to be used alognside with [stats report from webpack](https://webpack.js.org/api/stats/).
+It's meant to be used alognside [stats report from webpack](https://webpack.js.org/api/stats/).
 
 ## Quick Start
 
@@ -52,10 +52,10 @@ Examples
 
 ## Features
 
-### Stats Analyzes
+### Stats Analyses
 
 * Outputs list of all modules/files included in the bundle in from most imported to least imported order.
-* Build a chain of dependencies for transitive dependencies.
+* Builds a chain of dependencies for transitive dependencies.
 * Shows all files that were included for particular module.
 * Shows all reasons why particular module was included.
 
@@ -63,7 +63,7 @@ Examples
 MODULE  isobject
 ├─ imported: 1 time     ← number of times module imported
 ├─ type: [transitive]   ← type of a dependency can be either direct or transitive
-│  └─ isobject -> is-plain-object -> styled-components    ← for transitive dependencies whybundled outputs a chain of dependencies up to closest direct
+│  └─ isobject -> is-plain-object -> styled-components    ← for transitive dependencies whybundled outputs a chain of dependencies up to the closest direct
 │
 ├─ locations:  ← where module is located in a project
 │  └─ ../node_modules/isobject/
@@ -71,20 +71,20 @@ MODULE  isobject
 ├─ files:      ← list of files that were included for this module
 │  └─ ../node_modules/isobject/index.js
 │
-└─ reasons:    ← list of reasons why module was included in a resulting bundle
+└─ reasons:    ← list of reasons why module was included in a bundle
    └─ is-plain-object
       └─ ../node_modules/is-plain-object/index.js  10:15-34  [cjs require]
 ```
 
 ### Duplicates Badge
 
-If module has been bundled several times from different locations whybundled adds `[multiple]` badge next to locations field:
+If module has been bundled several times from different locations `whybundled` adds `[multiple]` badge next to the locations field:
 
 ![whybundled duplicates](/assets/multiple.png)
 
 ### Brought by
 
-Using `--by` flag whybundled shows all modules that were brought into resulting bundle by a particular module:
+Using `--by` flag `whybundled` shows all modules that were brought into the bundle by a particular module:
 
 ```sh
 whybundled stats.json --by styled-components
