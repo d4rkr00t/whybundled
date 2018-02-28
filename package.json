@@ -26,8 +26,7 @@
   },
   "pre-commit": [
     "lint:flow",
-    "lint:staged",
-    "test"
+    "lint:staged"
   ],
   "lint-staged": {
     "*.js": [

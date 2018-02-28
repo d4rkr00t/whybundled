@@ -1,5 +1,7 @@
 [ignore]
 .*/.nyc_output/.*
+.*/coverage/.*
+.*/fixtures/.*
 .*/.vscode/.*
 .*/assets/.*
 .*/node_modules/.*
