@@ -15,7 +15,8 @@ const knownFlags = [
   "duplicatesOnly",
   "limit",
   "version",
-  "help"
+  "help",
+  "ignore"
 ];
 
 const validateFlags = flags => {

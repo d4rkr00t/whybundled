@@ -5,11 +5,13 @@ const chalk = require("chalk");
 module.exports = function help() {
   return [
     chalk.green("Usage"),
-    `  $ whybundled stats.json [pattern]                 ${chalk.dim('[default command]')}`,
-    `  $ whybundled stats.json --by styled-components    ${chalk.dim('[by command]')}`,
+    `  $ whybundled stats.json [pattern]                     ${chalk.dim('[default command]')}`,
+    `  $ whybundled stats.json --ignore babel-runtime,tslib  ${chalk.dim('[default command]')}`,
+    `  $ whybundled stats.json --by styled-components        ${chalk.dim('[by command]')}`,
     "",
     chalk.green("Default options:"),
     `  ${chalk.yellow("[pattern]")}          Optional pattern used to filter output to only matched modules`,
+    `  ${chalk.yellow("--ignore")}           Comma separated list of glob pattern to exclude modules from final output`,
     `  ${chalk.yellow("--modulesOnly")}      Only include modules`,
     `  ${chalk.yellow("--filesOnly")}        Only include files`,
     `  ${chalk.yellow("--directOnly")}       Only include direct dependencies`,
@@ -18,6 +20,7 @@ module.exports = function help() {
     `  ${chalk.yellow("--limit")}            Limits output of reasons and files [default: 20]`,
     "",
     chalk.green("By options [--by]:"),
+    `  ${chalk.yellow("--ignore")}           Comma separated list of glob pattern to exclude modules from final output`,
     `  ${chalk.yellow("--limit")}            Limits output of reasons and files [default: 20]`,
     ``,
     chalk.green("Other options:"),

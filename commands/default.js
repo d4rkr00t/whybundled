@@ -11,6 +11,7 @@ type Flags = {
   directOnly?: boolean,
   transitiveOnly?: boolean,
   duplicatesOnly?: boolean,
+  ignore?: string,
   by?: string
 }
 */
@@ -21,7 +22,8 @@ module.exports = function defaultCommand(
   pattern /*: string*/
 ) {
   const stats = getStats(statsFilePath);
-  const report = analyze(stats).filter(module => {
+  const ignore = flags.ignore ? flags.ignore.split(",") : [];
+  const report = analyze(stats, ignore).filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
       return true;
     } else if (pattern) {
