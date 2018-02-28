@@ -6,15 +6,15 @@ const defaultCommand = require("./commands/default");
 const byCommand = require("./commands/by");
 const helpCommand = require("./commands/help");
 
-const { pkg, input, flags } = meow({
-  argv: process.argv.slice(2)
+const { pkg, input, flags, showHelp } = meow(helpCommand(), {
+  argv: process.argv.slice(2),
+  autoHelp: false
 });
 
 const start = Date.now();
 
 if (!input || !input.length || !input[0].match(".json") || flags.help) {
-  helpCommand();
-  process.exit(0);
+  showHelp(0);
 }
 
 if (flags.by) {

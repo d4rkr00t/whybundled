@@ -3,7 +3,7 @@
 const chalk = require("chalk");
 
 module.exports = function help() {
-  console.log([
+  return [
     chalk.green("Usage"),
     `  $ whybundled stats.json [pattern]                 ${chalk.dim('[default command]')}`,
     `  $ whybundled stats.json --by styled-components    ${chalk.dim('[by command]')}`,
@@ -27,5 +27,5 @@ module.exports = function help() {
     chalk.green("Examples"),
     "  $ whybundled stats.json --modulesOnly",
     "",
-  ].join('\n'));
+  ].join('\n');
 }
