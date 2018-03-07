@@ -35,7 +35,7 @@
 
 Ever wondered why any particular module ended up in a bundle? WhyBundled is here to answer exactly this question.
 
-It's meant to be used alognside [stats report from webpack](https://webpack.js.org/api/stats/).
+It's meant to be used alongside [stats report from webpack](https://webpack.js.org/api/stats/).
 
 ## Quick Start
 
