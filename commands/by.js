@@ -1,6 +1,8 @@
 /* @flow */
 
 const { analyze, print, getStats } = require("../lib");
+const validate = require("../lib/validate");
+const { log, invalidStatsJson } = require("../lib/messages");
 
 module.exports = function byCommand(
   statsFilePath /*: string */,
@@ -8,6 +10,12 @@ module.exports = function byCommand(
   pattern /*: string */
 ) {
   const stats = getStats(statsFilePath);
+
+  if (!validate(stats)) {
+    log(invalidStatsJson(statsFilePath));
+    process.exit(1);
+  }
+
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
   const report = analyze(stats, ignore).filter(mod => {
     return (

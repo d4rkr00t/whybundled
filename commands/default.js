@@ -2,6 +2,8 @@
 
 const mm = require("micromatch");
 const { analyze, print, getStats } = require("../lib");
+const validate = require("../lib/validate");
+const { log, invalidStatsJson } = require("../lib/messages");
 
 /*::
 type Flags = {
@@ -22,6 +24,12 @@ module.exports = function defaultCommand(
   pattern /*: string*/
 ) {
   const stats = getStats(statsFilePath);
+
+  if (!validate(stats)) {
+    log(invalidStatsJson(statsFilePath));
+    process.exit(1);
+  }
+
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
   const report = analyze(stats, ignore).filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
