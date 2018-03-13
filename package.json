@@ -14,7 +14,7 @@
   "scripts": {
     "ci:validate": "npm run lint:flow",
     "ci:github-release": "conventional-github-releaser -p angular",
-    "ci:test:coverage": "nyc --reporter=lcov npm test",
+    "ci:test:coverage": "nyc --reporter=lcov npm test && cat ./coverage/lcov.info | coveralls",
     "test": "ava --verbose",
     "test:coverage": "nyc npm test",
     "lint:staged": "lint-staged",
@@ -66,6 +66,7 @@
   "devDependencies": {
     "ava": "^1.0.0-beta.1",
     "conventional-github-releaser": "^2.0.0",
+    "coveralls": "^3.0.0",
     "fixturez": "^1.1.0",
     "flow-bin": "^0.66.0",
     "lint-staged": "^7.0.0",
