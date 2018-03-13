@@ -26,6 +26,10 @@
     <img src="https://img.shields.io/travis/d4rkr00t/whybundled.svg" alt="Travis Status">
   </a>
 
+  <a href='https://coveralls.io/github/d4rkr00t/whybundled'>
+    <img src='https://coveralls.io/repos/github/d4rkr00t/whybundled/badge.svg' alt='Coverage Status' />
+  </a>
+
   <a href="http://commitizen.github.io/cz-cli/">
     <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen Friendly">
   </a>
