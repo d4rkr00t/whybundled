@@ -1,0 +1,18 @@
+Some output from some plugins.
+
+May contain several lines...
+
+{
+  "chunks": [
+    {
+      "modules": [
+        {
+          "id": "module1",
+          "name": "module-name",
+          "size": 500,
+          "reasons": []
+        }
+      ]
+    }
+  ]
+}
