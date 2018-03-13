@@ -1,0 +1,54 @@
+{
+  "chunks": [
+    {
+      "modules": [
+        {
+          "id": "S33B",
+          "identifier":
+            "delegated 164 from dll-reference reactVendors_489ff309e47766c80b1e",
+          "name":
+            "delegated ./node_modules/react-tap-event-plugin/src/injectTapEventPlugin.js from dll-reference reactVendors_489ff309e47766c80b1e",
+          "index": 382,
+          "index2": 380,
+          "size": 42,
+          "cacheable": true,
+          "built": true,
+          "optional": false,
+          "prefetched": false,
+          "chunks": [1],
+          "assets": [],
+          "issuer":
+            "/Users/ssysoev/Development/temp/guillaumecisco/node_modules/happypack/loader.js?id=babel!/Users/ssysoev/Development/temp/guillaumecisco/src/client/index.js",
+          "issuerId": "EAxn",
+          "issuerName": "./src/client/index.js",
+          "profile": {
+            "factory": 12,
+            "building": 0,
+            "dependencies": 0
+          },
+          "failed": false,
+          "errors": 0,
+          "warnings": 0,
+          "reasons": [
+            {
+              "moduleId": "EAxn",
+              "moduleIdentifier":
+                "/Users/ssysoev/Development/temp/guillaumecisco/node_modules/happypack/loader.js?id=babel!/Users/ssysoev/Development/temp/guillaumecisco/src/client/index.js",
+              "module": "./src/client/index.js",
+              "moduleName": "./src/client/index.js",
+              "type": "cjs require",
+              "userRequest": "react-tap-event-plugin",
+              "loc": "17:27-60"
+            }
+          ],
+          "usedExports": true,
+          "providedExports": null,
+          "optimizationBailout": [
+            "ModuleConcatenation bailout: Module is not an ECMAScript module"
+          ],
+          "depth": 2
+        }
+      ]
+    }
+  ]
+}
