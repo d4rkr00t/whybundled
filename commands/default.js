@@ -3,9 +3,11 @@
 const mm = require("micromatch");
 const { analyze, print, getStats } = require("../lib");
 const validate = require("../lib/validate");
-const { log, invalidStatsJson } = require("../lib/messages");
+const { log, invalidStatsJson } = require("../lib/console/messages");
 
 /*::
+import type { UpdateProgressBar } from '../lib/console/progress-bar';
+
 type Flags = {
   limit: number,
   filesOnly?: boolean,
@@ -21,7 +23,8 @@ type Flags = {
 module.exports = function defaultCommand(
   statsFilePath /*: string */,
   flags /*: Flags */,
-  pattern /*: string*/
+  pattern /*: string*/,
+  updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
   const stats = getStats(statsFilePath);
 
@@ -31,7 +34,7 @@ module.exports = function defaultCommand(
   }
 
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
-  const report = analyze(stats, ignore).filter(module => {
+  const report = analyze(stats, ignore, updateProgressBar).filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
       return true;
     } else if (pattern) {

@@ -14,7 +14,9 @@
  */
 
 declare module "micromatch" {
-  declare module.exports: any;
+  declare module.exports: {
+    isMatch: (what: string, patterns: Array<string> | string) => boolean
+  };
 }
 
 /**

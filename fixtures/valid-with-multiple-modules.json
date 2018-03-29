@@ -1,0 +1,20 @@
+{
+  "chunks": [
+    {
+      "modules": [
+        {
+          "id": "module1",
+          "name": "module-name",
+          "size": 500,
+          "reasons": []
+        },
+        {
+          "id": "module2",
+          "name": "module-name2",
+          "size": 300,
+          "reasons": []
+        }
+      ]
+    }
+  ]
+}
