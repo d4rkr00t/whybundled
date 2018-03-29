@@ -3,6 +3,7 @@
 
 const meow = require("meow");
 const chalk = require("chalk");
+const createProgressBar = require("./lib/console/progress-bar");
 const defaultCommand = require("./commands/default");
 const byCommand = require("./commands/by");
 const helpCommand = require("./commands/help");
@@ -52,10 +53,12 @@ if (!input || !input.length || !input[0].match(".json") || flags.help) {
   showHelp(0);
 }
 
+const updateProgressBar = createProgressBar();
+
 if (flags.by) {
-  byCommand(input[0], flags, input[1]);
+  byCommand(input[0], flags, input[1], updateProgressBar);
 } else {
-  defaultCommand(input[0], flags, input[1]);
+  defaultCommand(input[0], flags, input[1], updateProgressBar);
 }
 
 const timing = (Date.now() - start) / 1000;
