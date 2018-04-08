@@ -22,7 +22,9 @@ module.exports = function byCommand(
   }
 
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
-  const report = analyze(stats, ignore, updateProgressBar).filter(
+  const report = analyze(stats, ignore, updateProgressBar);
+
+  const modules = report.modules.filter(
     mod =>
       mod.reasons.some(
         reason =>
@@ -31,5 +33,5 @@ module.exports = function byCommand(
   );
 
   const limit /*: number */ = pattern ? 0 : flags.limit >= 0 ? flags.limit : 20;
-  print(report, { by: flags.by }, limit);
+  print(modules, report.chunks, { by: flags.by }, limit);
 };

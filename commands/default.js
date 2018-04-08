@@ -34,7 +34,8 @@ module.exports = function defaultCommand(
   }
 
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
-  const report = analyze(stats, ignore, updateProgressBar).filter(module => {
+  const report = analyze(stats, ignore, updateProgressBar);
+  const modules = report.modules.filter(module => {
     if (pattern && mm.isMatch(module.name, pattern)) {
       return true;
     } else if (pattern) {
@@ -53,5 +54,5 @@ module.exports = function defaultCommand(
   });
 
   const limit = pattern ? 0 : flags.limit >= 0 ? flags.limit : 20;
-  print(report, flags, limit);
+  print(modules, report.chunks, flags, limit);
 };

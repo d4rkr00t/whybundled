@@ -1,6 +1,9 @@
 {
   "chunks": [
     {
+      "id": 1,
+      "names": [],
+      "size": 0,
       "modules": [
         {
           "id": "S33B",
