@@ -15,7 +15,11 @@
 
 declare module "micromatch" {
   declare module.exports: {
-    isMatch: (what: string, patterns: Array<string> | string) => boolean
+    isMatch: (
+      what: string,
+      patterns: Array<string> | string,
+      options?: Object
+    ) => boolean
   };
 }
 

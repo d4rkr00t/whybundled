@@ -65,3 +65,4 @@ const timing = (Date.now() - start) / 1000;
 const rounded = Math.round(timing * 100) / 100;
 
 console.log(`🏁  Done in ${rounded}s.`);
+process.exit(0);
