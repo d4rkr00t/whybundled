@@ -22,6 +22,7 @@ module.exports = function help() {
     chalk.green("By options [--by]:"),
     `  ${chalk.yellow("--ignore")}           Comma separated list of glob pattern to exclude modules from final output`,
     `  ${chalk.yellow("--limit")}            Limits output of reasons and files [default: 20]`,
+    `  ${chalk.yellow("--only")}             Limits output to only include modules that were included by specified module exclusively`,
     ``,
     chalk.green("Other options:"),
     `  ${chalk.yellow("-v, --version")}      Shows version.`,

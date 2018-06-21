@@ -9,6 +9,7 @@ const byCommand = require("./commands/by");
 const helpCommand = require("./commands/help");
 const knownFlags = [
   "by",
+  "only",
   "modulesOnly",
   "filesOnly",
   "directOnly",
