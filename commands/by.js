@@ -3,9 +3,10 @@
 /*::
 import type { UpdateProgressBar } from '../lib/console/progress-bar';
 import type { Reason, Module } from '../lib/analyze';
+import type { Reporter } from '../lib/reporter';
 */
 
-const { analyze, print, getStats } = require("../lib");
+const { analyze, getStats } = require("../lib");
 const validate = require("../lib/validate");
 const { log, invalidStatsJson } = require("../lib/console/messages");
 
@@ -40,6 +41,7 @@ module.exports = function byCommand(
   statsFilePath /*: string */,
   flags /*: { limit: number, by: string, only?: boolean, ignore?: string } */,
   pattern /*: string */,
+  reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
   const stats = getStats(statsFilePath);
@@ -57,5 +59,5 @@ module.exports = function byCommand(
     : modulesFollowingDepsChain(report.modules, flags.by);
 
   const limit /*: number */ = pattern ? 0 : flags.limit >= 0 ? flags.limit : 20;
-  print(modules, report.chunks, { by: flags.by }, limit);
+  reporter.print(modules, report.chunks, { by: flags.by }, limit);
 };
