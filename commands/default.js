@@ -1,12 +1,13 @@
 /* @flow */
 
 const mm = require("micromatch");
-const { analyze, print, getStats } = require("../lib");
+const { analyze, getStats } = require("../lib");
 const validate = require("../lib/validate");
 const { log, invalidStatsJson } = require("../lib/console/messages");
 
 /*::
 import type { UpdateProgressBar } from '../lib/console/progress-bar';
+import type { Reporter } from '../lib/reporter';
 
 type Flags = {
   limit: number,
@@ -24,6 +25,7 @@ module.exports = function defaultCommand(
   statsFilePath /*: string */,
   flags /*: Flags */,
   pattern /*: string*/,
+  reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
   const stats = getStats(statsFilePath);
@@ -54,5 +56,5 @@ module.exports = function defaultCommand(
   });
 
   const limit = pattern ? 0 : flags.limit >= 0 ? flags.limit : 20;
-  print(modules, report.chunks, flags, limit);
+  reporter.print(modules, report.chunks, flags, limit);
 };

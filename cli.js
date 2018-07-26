@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /* @flow */
 
+const path = require("path");
 const meow = require("meow");
 const chalk = require("chalk");
 const createProgressBar = require("./lib/console/progress-bar");
+const defaultReporter = require("./lib/reporter");
 const defaultCommand = require("./commands/default");
 const byCommand = require("./commands/by");
 const helpCommand = require("./commands/help");
@@ -18,7 +20,8 @@ const knownFlags = [
   "limit",
   "version",
   "help",
-  "ignore"
+  "ignore",
+  "reporter"
 ];
 
 const validateFlags = flags => {
@@ -56,10 +59,21 @@ if (!input || !input.length || !input[0].match(".json") || flags.help) {
 
 const updateProgressBar = createProgressBar();
 
+let reporter = defaultReporter;
+if (flags.reporter) {
+  try {
+    reporter = {
+      ...defaultReporter,
+      // $FlowFixMe
+      ...require(path.resolve(__dirname, flags.reporter))
+    };
+  } catch (e) {}
+}
+
 if (flags.by) {
-  byCommand(input[0], flags, input[1], updateProgressBar);
+  byCommand(input[0], flags, input[1], reporter, updateProgressBar);
 } else {
-  defaultCommand(input[0], flags, input[1], updateProgressBar);
+  defaultCommand(input[0], flags, input[1], reporter, updateProgressBar);
 }
 
 const timing = (Date.now() - start) / 1000;
