@@ -1,0 +1,44 @@
+{
+  "errors": [],
+  "warnings": [],
+  "version": "1.15.0",
+  "hash": "9184c60078374c771f6c",
+  "time": 16625,
+  "publicPath": "http://localhost:8000/",
+  "assetsByChunkName": {
+    "commons": ["commons.js", "commons.js.map"]
+  },
+  "assets": [
+    {
+      "name": "commons.js",
+      "size": 3797689,
+      "chunks": [0],
+      "chunkNames": ["commons"],
+      "emitted": true
+    }
+  ],
+  "chunks": [
+    {
+      "id": 0,
+      "rendered": true,
+      "initial": true,
+      "entry": true,
+      "extraAsync": false,
+      "size": 3492266,
+      "names": ["commons"],
+      "files": ["commons.js", "commons.js.map"],
+      "hash": "5088ce796a9301f64f06",
+      "parents": []
+    }
+  ],
+  "modules": [
+    {
+      "id": "module1",
+      "name": "module-name",
+      "size": 500,
+      "reasons": []
+    }
+  ],
+  "filteredModules": 0,
+  "children": []
+}
