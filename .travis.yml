@@ -5,9 +5,9 @@ cache:
 notifications:
   email: false
 node_js:
-  - "6"
   - "8"
-  - "9"
+  - "10"
+  - "12"
 before_script:
   - npm prune
 install:
