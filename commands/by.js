@@ -9,6 +9,7 @@ import type { Reporter } from '../lib/reporter';
 const { analyze, getStats } = require("../lib");
 const validate = require("../lib/validate");
 const { log, invalidStatsJson } = require("../lib/console/messages");
+const normalizeStats = require("../lib/normalize-stats");
 
 const isDepsChainBy = (depsChain /*: Array<string> */, by /*: string */) => {
   return depsChain.indexOf(by) !== -1;
@@ -44,9 +45,8 @@ module.exports = function byCommand(
   reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
-  const stats = getStats(statsFilePath);
-
-  if (!validate(stats)) {
+  const stats = normalizeStats(getStats(statsFilePath));
+  if (!validate(stats.modules)) {
     log(invalidStatsJson(statsFilePath));
     process.exit(1);
   }

@@ -4,6 +4,7 @@ const mm = require("micromatch");
 const { analyze, getStats } = require("../lib");
 const validate = require("../lib/validate");
 const { log, invalidStatsJson } = require("../lib/console/messages");
+const normalizeStats = require("../lib/normalize-stats");
 
 /*::
 import type { UpdateProgressBar } from '../lib/console/progress-bar';
@@ -28,9 +29,8 @@ module.exports = function defaultCommand(
   reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
-  const stats = getStats(statsFilePath);
-
-  if (!validate(stats)) {
+  const stats = normalizeStats(getStats(statsFilePath));
+  if (!validate(stats.modules)) {
     log(invalidStatsJson(statsFilePath));
     process.exit(1);
   }
