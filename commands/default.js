@@ -37,8 +37,12 @@ module.exports = function defaultCommand(
 
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
   const report = analyze(stats, ignore, updateProgressBar);
+
+  const format = str =>
+    str.replace(/^\.\//, "").replace(/ \+ \d+ modules$/, "");
+
   const modules = report.modules.filter(module => {
-    if (pattern && mm.isMatch(module.name, pattern)) {
+    if (pattern && mm.isMatch(module.name, pattern, { format })) {
       return true;
     } else if (pattern) {
       return false;
