@@ -63,6 +63,7 @@ Default options:
   [pattern]          Optional pattern used to filter output to only matched modules
                      Note: you might need to wrap the pattern in quotes to use wildcards, e.g. "*.jsx"
   --ignore           Comma separated list of glob pattern to exclude modules from final output
+  --chunks           Only include items which are in at least one of the chunks (comma separated list)
   --modulesOnly      Only include modules
   --filesOnly        Only include files
   --directOnly       Only include direct dependencies

@@ -13,6 +13,7 @@ module.exports = function help() {
     `  ${chalk.yellow("[pattern]")}          Optional pattern used to filter output to only matched modules`,
     `                     Note: you might need to wrap the pattern in quotes to use wildcards, e.g. "*.jsx"`,
     `  ${chalk.yellow("--ignore")}           Comma separated list of glob pattern to exclude modules from final output`,
+    `  ${chalk.yellow("--chunks")}           Only include items which are in at least one of the chunks (comma separated list)`,
     `  ${chalk.yellow("--modulesOnly")}      Only include modules`,
     `  ${chalk.yellow("--filesOnly")}        Only include files`,
     `  ${chalk.yellow("--directOnly")}       Only include direct dependencies`,

@@ -21,7 +21,8 @@ const knownFlags = [
   "version",
   "help",
   "ignore",
-  "reporter"
+  "reporter",
+  "chunks"
 ];
 
 const validateFlags = flags => {
