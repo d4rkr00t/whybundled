@@ -18,7 +18,8 @@ type Flags = {
   transitiveOnly?: boolean,
   duplicatesOnly?: boolean,
   ignore?: string,
-  by?: string
+  by?: string,
+  chunks?: string
 }
 */
 
@@ -38,15 +39,36 @@ module.exports = function defaultCommand(
   const ignore = flags.ignore ? flags.ignore.split(",") : [];
   const report = analyze(stats, ignore, updateProgressBar);
 
+  let chunkIds;
+  if (flags.chunks) {
+    chunkIds = new Set();
+    const chunks = flags.chunks.split(",");
+    Object.keys(stats.chunks).forEach(id => {
+      const chunk = stats.chunks[id];
+      if (
+        chunks.includes(chunk.id) ||
+        (chunk.names && chunk.names.some(name => chunks.includes(name)))
+      ) {
+        chunkIds.add(chunk.id);
+      }
+    });
+  }
+
   const format = str =>
     str.replace(/^\.\//, "").replace(/ \+ \d+ modules$/, "");
 
   const modules = report.modules.filter(module => {
+    const matchesChunk = chunkIds
+      ? module.chunks.some(chunk => chunkIds.has(chunk))
+      : true;
+
     if (pattern && mm.isMatch(module.name, pattern, { format })) {
-      return true;
+      return matchesChunk;
     } else if (pattern) {
       return false;
     }
+
+    if (!matchesChunk) return false;
 
     if (flags.filesOnly && module.type !== "file") return false;
     if (flags.modulesOnly && module.type !== "module") return false;
