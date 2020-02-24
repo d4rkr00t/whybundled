@@ -1,20 +1,20 @@
-name: Node Package Publish
+name: Node.js Package
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types: [created]
 
 jobs:
   publish-npm:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
+      - run: npm install
       - name: Conventional Changelog Action
         uses: TriPSs/conventional-changelog-action@v1.2.0
         with:
