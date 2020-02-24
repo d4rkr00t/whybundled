@@ -1,0 +1,29 @@
+name: Node Package Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v1.2.0
+        with:
+          github-token: ${{ secrets.github_token }}
+          git-message: "chore(release): {version}"
+          preset: "angular"
+          tag-prefix: "v"
+          output-file: "CHANGELOG.md"
+          changelog-release-count: 10
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
