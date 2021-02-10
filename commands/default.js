@@ -22,14 +22,14 @@ type Flags = {
 }
 */
 
-module.exports = function defaultCommand(
+module.exports = async function defaultCommand(
   statsFilePath /*: string */,
   flags /*: Flags */,
   pattern /*: string*/,
   reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
-  const stats = normalizeStats(getStats(statsFilePath));
+  const stats = normalizeStats(await getStats(statsFilePath));
   if (!validate(stats.modules)) {
     log(invalidStatsJson(statsFilePath));
     process.exit(1);

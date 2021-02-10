@@ -38,14 +38,14 @@ const modulesOnlyBy = (modules /*: Array<Module> */, by /*: string */) =>
         (mod.depsChains || []).every(depsChain => isDepsChainBy(depsChain, by)))
   );
 
-module.exports = function byCommand(
+module.exports = async function byCommand(
   statsFilePath /*: string */,
   flags /*: { limit: number, by: string, only?: boolean, ignore?: string } */,
   pattern /*: string */,
   reporter /*: Reporter */,
   updateProgressBar /*: UpdateProgressBar */ = () => {}
 ) {
-  const stats = normalizeStats(getStats(statsFilePath));
+  const stats = normalizeStats(await getStats(statsFilePath));
   if (!validate(stats.modules)) {
     log(invalidStatsJson(statsFilePath));
     process.exit(1);

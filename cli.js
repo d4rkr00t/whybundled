@@ -70,14 +70,22 @@ if (flags.reporter) {
   } catch (e) {}
 }
 
-if (flags.by) {
-  byCommand(input[0], flags, input[1], reporter, updateProgressBar);
-} else {
-  defaultCommand(input[0], flags, input[1], reporter, updateProgressBar);
-}
+(async () => {
+  if (flags.by) {
+    await byCommand(input[0], flags, input[1], reporter, updateProgressBar);
+  } else {
+    await defaultCommand(
+      input[0],
+      flags,
+      input[1],
+      reporter,
+      updateProgressBar
+    );
+  }
 
-const timing = (Date.now() - start) / 1000;
-const rounded = Math.round(timing * 100) / 100;
+  const timing = (Date.now() - start) / 1000;
+  const rounded = Math.round(timing * 100) / 100;
 
-console.log(`🏁  Done in ${rounded}s.`);
-process.exit(0);
+  console.log(`🏁  Done in ${rounded}s.`);
+  process.exit(0);
+})();
