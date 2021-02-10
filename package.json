@@ -63,6 +63,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@discoveryjs/json-ext": "^0.5.2",
     "chalk": "^3.0.0",
     "meow": "^6.0.1",
     "micromatch": "^4.0.2",
