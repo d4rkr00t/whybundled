@@ -22,10 +22,6 @@
     <img src="https://img.shields.io/github/issues/d4rkr00t/whybundled.svg" alt="Github Issues">
   </a>
 
-  <a href="https://travis-ci.org/d4rkr00t/whybundled">
-    <img src="https://img.shields.io/travis/d4rkr00t/whybundled.svg" alt="Travis Status">
-  </a>
-
   <a href='https://coveralls.io/github/d4rkr00t/whybundled'>
     <img src='https://coveralls.io/repos/github/d4rkr00t/whybundled/badge.svg' alt='Coverage Status' />
   </a>
@@ -87,10 +83,10 @@ Examples
 
 ### Stats Analyses
 
-* Outputs list of all modules/files included in the bundle in from most imported to least imported order.
-* Builds a chain of dependencies for transitive dependencies.
-* Shows all files that were included for particular module.
-* Shows all reasons why particular module was included.
+- Outputs list of all modules/files included in the bundle in from most imported to least imported order.
+- Builds a chain of dependencies for transitive dependencies.
+- Shows all files that were included for particular module.
+- Shows all reasons why particular module was included.
 
 ```sh
 MODULE  isobject
