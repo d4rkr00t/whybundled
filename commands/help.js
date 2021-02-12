@@ -2,7 +2,8 @@
 
 const chalk = require("chalk");
 
-module.exports = function help() {
+
+module.exports = function help() /*: string */ {
   return [
     chalk.green("Usage"),
     `  $ whybundled stats.json "[pattern]"                   ${chalk.dim('[default command]')}`,
