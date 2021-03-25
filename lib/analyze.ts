@@ -1,105 +1,101 @@
-/* @flow */
-/*::
-
+import mm from "micromatch";
 import type { UpdateProgressBar } from "./console/progress-bar";
 
 export type WebpackStats = {
-  chunks?: Array<WebpackChunk>,
-  modules: Array<WebpackModule>,
-  children?: Array<WebpackStats & { id?: string }>
+  chunks?: Array<WebpackChunk>;
+  modules: Array<WebpackModule>;
+  children?: Array<WebpackStats & { id?: string }>;
 };
 
 export type NormalizedWebpackStats = {
-  chunks: Chunks,
-  modules: Array<WebpackModule>,
+  chunks: Chunks;
+  modules: Array<WebpackModule>;
 };
 
 export type WebpackChunk = {
-  id: number,
-  size: number,
-  names: Array<string>,
-  modules: Array<WebpackModule>
+  id: number;
+  size: number;
+  names: Array<string>;
+  modules: Array<WebpackModule>;
 };
 
 export type WebpackModule = {
- id: string,
- name: string,
- size: string,
- chunks: Array<number>,
- reasons: Array<WebpackReason>
+  id: string;
+  name: string;
+  size: number;
+  chunks: Array<number>;
+  reasons: Array<WebpackReason>;
 };
 
 export type WebpackReason = {
-  module: string,
-  moduleName: string,
-  loc: string,
-  type: string,
+  module: string;
+  moduleName: string;
+  loc: string;
+  type: string;
 };
 
 export type PreModule = {
-  id: string,
-  name: string,
-  clearName: string,
-  chunks: Array<number>,
-  type: string,
-  reasons: Array<WebpackReason>,
-  size: string,
-  deps: number,
-  location: string,
+  id: string;
+  name: string;
+  clearName: string;
+  chunks: Array<number>;
+  type: string;
+  reasons: Array<WebpackReason>;
+  size: number;
+  deps: number;
+  location: string;
 };
 
 export type Module = {
-  name: string,
-  size: number,
-  chunks: Array<number>,
-  clearName: string,
-  imported: number,
-  type: string,
-  deps: number,
-  depsType: string,
-  reasons: Array<Reason>,
-  locations: Array<string>,
-  filesIncluded: Array<string>,
-  depsChains: Array<Array<string>>
+  name: string;
+  size: number;
+  chunks: Array<number>;
+  clearName: string;
+  imported: number;
+  type: string;
+  deps: number;
+  depsType: string;
+  reasons: Array<Reason>;
+  locations: Array<string>;
+  filesIncluded: Array<string>;
+  depsChains: Array<Array<string>>;
 };
 
+export type ModulesMap = Record<string, Module>;
+
 export type Reason = {
-  clearName: string,
-  type: string,
-  module?: string,
-  moduleName: string,
-  loc: string,
-  importType: string,
-  reasons: Array<SubReason>
+  clearName: string;
+  type: string;
+  module?: string;
+  moduleName: string;
+  loc: string;
+  importType: string;
+  reasons: Array<SubReason>;
 };
 
 export type SubReason = {
-  moduleName: string,
-  loc: string,
-  importType: string,
-}
+  moduleName: string;
+  loc: string;
+  importType: string;
+};
 
 export type Chunks = {
   [key: number]: {
-    id: number,
-    size: number,
-    names: Array<string>
-  }
-}
-*/
-
-const path = require("path");
-const mm = require("micromatch");
+    id: number;
+    size: number;
+    names: Array<string>;
+  };
+};
 
 const DEFAULT_IGNORE = ["multi *", "*-loader*"];
 
-const toArray = (report /*: { [string]: Module } */) =>
+const toArray = (report: ModulesMap) =>
   // $FlowFixMe
   Object.keys(report).map((name) =>
     Object.assign({}, report[name], { name: name })
   );
 
-const getModuleName = (identifier /*: string */) => {
+const getModuleName = (identifier: string) => {
   const path = (identifier || "").split("node_modules/").pop();
   if (!path || path === identifier) return "";
   if (path.startsWith("@")) {
@@ -110,28 +106,28 @@ const getModuleName = (identifier /*: string */) => {
   return name;
 };
 
-const getLocation = (fullPath /*: string */, name /*: string*/) => {
+const getLocation = (fullPath: string, name: string): string => {
   const locationSplitPoint = fullPath.indexOf(name);
   const location = fullPath.substr(0, locationSplitPoint + name.length + 1);
-  return location.split("!").pop(); // loaders!!!
+  return location.split("!").pop()!; // loaders!!!
 };
 
-const getModuleType = (name /*?: string */) =>
+const getModuleType = (name?: string) =>
   !name || name.startsWith("multi ")
     ? "entry"
     : isNodeModules(name)
     ? "module"
     : "file";
 
-const isNodeModules = (identifier /*: string */) =>
+const isNodeModules = (identifier: string) =>
   identifier.indexOf("node_modules") > -1;
 
-const safeModuleSize = (size /*?: number */) => (size ? size : 0);
+const safeModuleSize = (size?: number) => (size ? size : 0);
 
-const joinModules = (modules) /*: { [string]: Module } */ =>
-  modules.reduce((acc, module /*: PreModule */) => {
+const joinModules = (modules: Array<PreModule>): ModulesMap =>
+  modules.reduce((acc, module: PreModule) => {
     if (module.type === "file") {
-      const joined = acc[module.name] || {
+      const joined: Module = acc[module.name] || {
         type: module.type,
         size: safeModuleSize(module.size),
         chunks: module.chunks,
@@ -143,12 +139,12 @@ const joinModules = (modules) /*: { [string]: Module } */ =>
 
       joined.imported += module.reasons.length;
       joined.reasons = joined.reasons.concat(
-        module.reasons.map((reason) => ({
+        module.reasons.map((reason: WebpackReason) => ({
           moduleName: reason.moduleName,
           loc: reason.loc,
           type: getModuleType(reason.moduleName),
           importType: reason.type,
-        }))
+        })) as Array<Reason>
       );
 
       acc[module.name] = joined;
@@ -165,55 +161,52 @@ const joinModules = (modules) /*: { [string]: Module } */ =>
         filesIncluded: [],
         depsChains: [],
       };
-      const reasons /*: Array<Reason> */ = module.reasons.reduce(
-        (acc, reason) => {
-          const clearName = getModuleName(reason.moduleName);
-          const location = clearName
-            ? getLocation(reason.moduleName, clearName)
-            : "";
-          const type = getModuleType(reason.moduleName);
+      const reasons = module.reasons.reduce<Array<Reason>>((acc, reason) => {
+        const clearName = getModuleName(reason.moduleName);
+        const location = clearName
+          ? getLocation(reason.moduleName, clearName)
+          : "";
+        const type = getModuleType(reason.moduleName);
 
-          if (location === module.location) return acc;
-          joined.imported += 1;
+        if (location === module.location) return acc;
+        joined.imported += 1;
 
-          if (type === "file") {
+        if (type === "file") {
+          acc.push({
+            type,
+            clearName,
+            moduleName: reason.moduleName,
+            loc: reason.loc,
+            importType: reason.type,
+            reasons: [],
+          });
+        } else {
+          const subReason: SubReason = {
+            moduleName: reason.moduleName,
+            importType: reason.type,
+            loc: reason.loc,
+          };
+
+          const existingReason = joined.reasons.find(
+            (reason: Reason) => reason.clearName === clearName
+          );
+
+          if (existingReason) {
+            existingReason.reasons.push(subReason);
+          } else {
             acc.push({
               type,
               clearName,
               moduleName: reason.moduleName,
-              loc: reason.loc,
               importType: reason.type,
-              reasons: [],
+              reasons: [subReason],
+              loc: reason.loc,
             });
-          } else {
-            const subReason /*: SubReason */ = {
-              moduleName: reason.moduleName,
-              importType: reason.type,
-              loc: reason.loc,
-            };
-
-            const existingReason = joined.reasons.find(
-              (reason) => reason.clearName === clearName
-            );
-
-            if (existingReason) {
-              existingReason.reasons.push(subReason);
-            } else {
-              acc.push({
-                type,
-                clearName,
-                moduleName: reason.moduleName,
-                importType: reason.type,
-                reasons: [subReason],
-                loc: reason.loc,
-              });
-            }
           }
+        }
 
-          return acc;
-        },
-        []
-      );
+        return acc;
+      }, []);
 
       joined.reasons = joined.reasons.concat(reasons);
       joined.depsType = joined.reasons.some((reason) => reason.type === "file")
@@ -228,9 +221,9 @@ const joinModules = (modules) /*: { [string]: Module } */ =>
     }
 
     return acc;
-  }, {});
+  }, {} as ModulesMap);
 
-const pickFromModules = (modules) /*: Array<PreModule> */ =>
+const pickFromModules = (modules: Array<WebpackModule>): Array<PreModule> =>
   modules.filter(Boolean).map((module) => {
     const clearName = getModuleName(module.name);
     return {
@@ -246,36 +239,51 @@ const pickFromModules = (modules) /*: Array<PreModule> */ =>
     };
   });
 
-const buildModuleDepsChains = (modules, name) => {
-  const module = modules[name];
-  return module.reasons.reduce((acc, reason) => {
-    if (name === reason.clearName) {
-      return acc;
+const buildModuleDepsChains = (
+  modules: ModulesMap,
+  name: string
+): Array<Array<string>> => {
+  const result = [];
+  const reasonsQueue = modules[name].reasons.map((reason) => [
+    reason.clearName,
+  ]);
+
+  while (reasonsQueue.length) {
+    const cur = reasonsQueue.shift()!;
+    const curName = cur[cur.length - 1];
+    const curModule = modules[curName];
+
+    if (curName === name || !curModule || curModule.type !== "module") {
+      continue;
     }
 
-    if (reason.type !== "module" || !modules[reason.clearName]) {
-      return acc;
+    if (curModule.depsType === "direct") {
+      result.push(cur);
+      continue;
     }
 
-    if (modules[reason.clearName].depsType === "direct") {
-      acc.push([reason.clearName]);
-      return acc;
+    const visitedReasons = new Set();
+    for (let reason of curModule.reasons || []) {
+      if (
+        reason.clearName &&
+        !cur.includes(reason.clearName) &&
+        !visitedReasons.has(reason.clearName)
+      ) {
+        visitedReasons.add(reason.clearName);
+        reasonsQueue.push([...cur, reason.clearName]);
+      }
     }
+  }
 
-    buildModuleDepsChains(modules, reason.clearName).forEach((nested) => {
-      acc.push([reason.clearName].concat(nested));
-    });
-
-    return acc;
-  }, []);
+  return result;
 };
 
 const postProcessModules = (
-  modules /*: { [key: string]: Module }*/,
-  ignore /*: Array<string> */,
-  updateProgressBar /*: Function */
-) => {
-  return Object.keys(modules).reduce((acc, name, index) => {
+  modules: ModulesMap,
+  ignore: Array<string>,
+  updateProgressBar: (cur: number, title: string, name: string) => void
+): ModulesMap => {
+  return Object.keys(modules).reduce<ModulesMap>((acc, name, index) => {
     updateProgressBar(index + 1, "processing", name);
 
     if (mm.isMatch(name, ignore)) {
@@ -319,20 +327,22 @@ const postProcessModules = (
   }, {});
 };
 
-module.exports = function analyze(
-  normalizedStats /*: NormalizedWebpackStats */,
-  ignore /*: Array<string> */ = [],
-  updateProgressBar /*: UpdateProgressBar */ = () => {}
-) /*: { modules: Module[], chunks: Chunks } */ {
+export function analyze(
+  normalizedStats: NormalizedWebpackStats,
+  ignore: Array<string> = [],
+  updateProgressBar: UpdateProgressBar = () => {}
+): { modules: Module[]; chunks: Chunks } {
   const chunks = normalizedStats.chunks;
   const modules = pickFromModules(normalizedStats.modules);
-  const ignorePatterns = [].concat(DEFAULT_IGNORE).concat(ignore);
+  const ignorePatterns = ([] as Array<string>)
+    .concat(DEFAULT_IGNORE)
+    .concat(ignore);
   const joinedModules = joinModules(modules);
   const joinedModulesCount = Object.keys(joinedModules).length;
   const updateProgressBarWithTotal = (
-    cur /*: number */,
-    title /*: string */,
-    name /*: string */
+    cur: number,
+    title: string,
+    name: string
   ) =>
     updateProgressBar({
       title,
@@ -350,4 +360,4 @@ module.exports = function analyze(
     ),
     chunks,
   };
-};
+}

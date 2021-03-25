@@ -1,12 +1,10 @@
-/* @flow */
+import chalk from "chalk";
 
-const chalk = require("chalk");
-
-function log(msg /*: Array<string> */) {
+export function log(msg: Array<string>) {
   console.log(msg.join("\n"));
 }
 
-function redBadge(label /*: string*/) {
+function redBadge(label: string) {
   return chalk.bgRed.black(` ${label} `);
 }
 
@@ -14,7 +12,7 @@ function errorBadge() {
   return redBadge("ERROR");
 }
 
-function invalidStatsJson(file /*: string */) /*: string[] */ {
+export function invalidStatsJson(file: string): Array<string> {
   return [
     chalk.red(
       `${errorBadge()} Stats file ${chalk.bold(
@@ -27,5 +25,3 @@ function invalidStatsJson(file /*: string */) /*: string[] */ {
     )}`,
   ];
 }
-
-module.exports = { log, invalidStatsJson };
