@@ -1,8 +1,4 @@
-// @flow
-
-const print = require("./print");
-
-/* ::
+import { print } from "./print";
 import type { Module, Chunks } from "../analyze";
 
 export type Reporter = {
@@ -13,9 +9,6 @@ export type Reporter = {
     limit: number,
     logger?: (msg?: string) => void
   ): void;
-}
-*/
+};
 
-const reporter /*: Reporter */ = { print };
-
-module.exports = reporter;
+export const reporter: Reporter = { print };

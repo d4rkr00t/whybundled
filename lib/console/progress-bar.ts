@@ -1,34 +1,26 @@
-/* @flow */
-
-/*::
-export type UpdateProgressBar = (param: { progress: number, title?: string, text?: string }) => void;
-*/
+export type UpdateProgressBar = (param: {
+  progress: number;
+  title?: string;
+  text?: string;
+}) => void;
 
 const chalk = require("chalk");
 
-function toStartOfLine(stdout /*: stream$Writable */) {
+function toStartOfLine(stdout: NodeJS.WriteStream) {
   stdout.write("\r");
 }
 
-function clearLine(stdout /*: stream$Writable */) {
-  // $FlowFixMe: investigate process.stderr.columns flow error
+function clearLine(stdout: NodeJS.WriteStream) {
   stdout.write(`\r${" ".repeat(stdout.columns)}`);
 }
 
-function selectPrevLine(stdout /*: stream$Writable */) {
-  stdout.write("\x1b[1A");
-}
-
-module.exports = function createProgressBar(
-  stdout /*: stream$Writable */ = process.stdout
-) /*: UpdateProgressBar */ {
+export function createProgressBar(stdout = process.stdout): UpdateProgressBar {
   return function updateProgress({
     progress,
     title: maybeTitle,
-    text: maybeText
+    text: maybeText,
   }) {
-    // $FlowFixMe: investigate process.stderr.columns flow error
-    const columns /*: number */ = stdout.columns - 10;
+    const columns: number = stdout.columns - 10;
     const ratio = progress / 100;
     const title = maybeTitle || "";
     const text = maybeText || "";
@@ -70,4 +62,4 @@ module.exports = function createProgressBar(
       clearLine(stdout);
     }
   };
-};
+}

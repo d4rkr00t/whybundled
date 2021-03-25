@@ -1,13 +1,14 @@
 {
   "name": "whybundled",
-  "version": "1.5.0",
+  "version": "2.0.0-alpha",
   "description": "Answers the question – Why the hell is this module in a bundle?",
-  "bin": "./cli.js",
+  "bin": {
+    "whybundled": "./dist/cli.js",
+    "wbd": "./dist/cli.js"
+  },
   "main": "lib/index.js",
   "files": [
-    "commands",
-    "lib",
-    "cli.js"
+    "dist"
   ],
   "repository": {
     "type": "git",
@@ -17,20 +18,22 @@
     "node": ">=8.4"
   },
   "scripts": {
-    "ci:validate": "npm run lint:flow",
+    "build": "opaline build",
+    "dev": "opaline dev",
+    "ci:validate": "npm run lint:typecheck",
     "ci:test:coverage": "nyc --reporter=lcov npm test",
     "ci:github-release": "conventional-github-releaser -p angular",
     "test": "ava --verbose",
     "test:coverage": "nyc npm test",
     "lint:staged": "lint-staged",
-    "lint:flow": "flow",
-    "prepare": "npm run ci:validate",
+    "lint:typecheck": "tsc",
+    "prepare": "npm run build && npm run ci:validate",
     "release:major": "pmm major",
     "release:minor": "pmm minor",
     "release:patch": "pmm patch"
   },
   "pre-commit": [
-    "lint:flow",
+    "lint:typecheck",
     "lint:staged"
   ],
   "lint-staged": {
@@ -42,15 +45,23 @@
   "nyc": {
     "per-file": true,
     "include": [
-      "lib/**/*.js",
-      "commands/**/*.js"
+      "lib/**/*.ts",
+      "commands/**/*.ts"
     ],
     "exclude": [
-      "lib/**/__tests__/**/*.js",
-      "commands/**/__tests__/**/*.js"
+      "lib/**/__tests__/**/*.ts",
+      "commands/**/__tests__/**/*.ts"
     ],
     "cache": true,
     "all": true
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register/transpile-only"
+    ]
   },
   "keywords": [
     "webpack",
@@ -64,9 +75,11 @@
   "license": "MIT",
   "dependencies": {
     "@discoveryjs/json-ext": "^0.5.2",
+    "@types/micromatch": "^4.0.1",
+    "@types/treeify": "^1.0.0",
     "chalk": "^4.1.0",
-    "meow": "^9.0.0",
     "micromatch": "^4.0.2",
+    "@opaline/core": "^0.5.3",
     "treeify": "^1.1.0"
   },
   "devDependencies": {
@@ -74,12 +87,13 @@
     "conventional-github-releaser": "^3.1.5",
     "coveralls": "^3.1.0",
     "fixturez": "^1.1.0",
-    "flow-bin": "^0.144.0",
     "lint-staged": "^10.5.4",
     "nyc": "^15.1.0",
     "pmm": "^2.0.0",
     "pre-commit": "^1.2.2",
     "prettier": "^2.2.1",
-    "strip-ansi": "^6.0.0"
+    "strip-ansi": "^6.0.0",
+    "typescript": "^4.2.3",
+    "ts-node": "^9.1.1"
   }
 }
