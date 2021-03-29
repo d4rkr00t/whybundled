@@ -64,6 +64,7 @@ OPTIONS
   --transitiveOnly     Only include transitive dependencies [boolean]
   --duplicatesOnly     Only include modules that have duplicates in a resulting bundle [boolean]
   --ignore             Comma separated list of glob patterns to exclude modules from final output [string]
+  --sortBy             Sort modules, available fields: size, imported. E.g. size:asc or size:desc. [string]
   --help               Output usage information
   --version            Output the version number
 

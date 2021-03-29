@@ -5,6 +5,8 @@ import { log, invalidStatsJson } from "../lib/console/messages";
 import { normalizeStats } from "../lib/normalize-stats";
 import { reporter as defaultReporter } from "../lib/reporter";
 import { createProgressBar } from "../lib/console/progress-bar";
+import type { Module } from "../lib/analyze";
+import { sortModules } from "./common/sort-modules";
 
 /**
  * Whybundled – Why the hell is this module in a bundle?
@@ -17,10 +19,12 @@ import { createProgressBar } from "../lib/console/progress-bar";
  * @param {boolean} transitiveOnly Only include transitive dependencies
  * @param {boolean} duplicatesOnly Only include modules that have duplicates in a resulting bundle
  * @param {string} ignore Comma separated list of glob patterns to exclude modules from final output
+ * @param {string} sortBy Sort modules, available fields: size, imported. E.g. size:asc or size:desc.
  *
  * @usage {cliName} stats.json [pattern]
  * @example whybundled stats.json --ignore babel-runtime,tslib
  * @example whybundled stats.json --modulesOnly
+ * @example whybundled stats.json --sortBy size:asc
  * @example whybundled by stats.json styled-components
  */
 export default async function defaultCommand(
@@ -31,7 +35,8 @@ export default async function defaultCommand(
   directOnly?: boolean,
   transitiveOnly?: boolean,
   duplicatesOnly?: boolean,
-  ignore?: string
+  ignore?: string,
+  sortBy?: string
 ) {
   const start = Date.now();
   const [statsFilePath, pattern] = $inputs;
@@ -67,6 +72,9 @@ export default async function defaultCommand(
   });
 
   const updatedLimit = pattern ? 0 : limit >= 0 ? limit : 20;
+  const [sortKey, sortOrder] = (sortBy || "").split(":");
+  sortModules(modules, sortKey, sortOrder);
+
   defaultReporter.print(modules, report.chunks, {}, updatedLimit);
 
   const timing = (Date.now() - start) / 1000;

@@ -261,7 +261,6 @@ export function print(
   logger: (msg?: string) => void = console.log
 ) {
   report
-    .sort((a, b) => b.imported - a.imported)
     .filter((module) => module.imported > 0)
     .forEach((module) => {
       if (module.type === "file") {
