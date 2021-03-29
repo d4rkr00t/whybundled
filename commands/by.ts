@@ -6,6 +6,7 @@ import { analyze, getStats } from "../lib";
 import { vlidateStatsJson } from "../lib/validate";
 import { log, invalidStatsJson } from "../lib/console/messages";
 import { normalizeStats } from "../lib/normalize-stats";
+import { sortDefault } from "./common/sort-modules";
 
 /**
  * Shows all modules that were brought into the bundle by a particular module.
@@ -43,6 +44,7 @@ export default async function byCommand(
     ? modulesOnlyBy(report.modules, by)
     : modulesFollowingDepsChain(report.modules, by);
 
+  sortDefault(modules);
   defaultReporter.print(modules, report.chunks, { by: by }, limit);
 
   const timing = (Date.now() - start) / 1000;
