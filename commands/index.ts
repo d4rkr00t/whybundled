@@ -5,7 +5,6 @@ import { log, invalidStatsJson } from "../lib/console/messages";
 import { normalizeStats } from "../lib/normalize-stats";
 import { reporter as defaultReporter } from "../lib/reporter";
 import { createProgressBar } from "../lib/console/progress-bar";
-import type { Module } from "../lib/analyze";
 import { sortModules } from "./common/sort-modules";
 
 /**
@@ -50,7 +49,6 @@ export default async function defaultCommand(
 
   const ignorePatterns = ignore ? ignore.split(",") : [];
   const report = analyze(stats, ignorePatterns, updateProgressBar);
-
   const format = (str: string) =>
     str.replace(/^\.\//, "").replace(/ \+ \d+ modules$/, "");
 
