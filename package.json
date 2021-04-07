@@ -1,6 +1,6 @@
 {
   "name": "whybundled",
-  "version": "2.0.0-alpha",
+  "version": "2.0.0",
   "description": "Answers the question – Why the hell is this module in a bundle?",
   "bin": {
     "whybundled": "./dist/cli.js",
