@@ -1,19 +1,30 @@
-import chalk from "chalk";
+import {
+  bgGreen,
+  bgYellow,
+  bgRed,
+  bgCyan,
+  magenta,
+  green,
+  red,
+  dim,
+  black,
+  yellow,
+} from "colorette";
 import treeify from "treeify";
 
 import type { Module, Reason, SubReason, Chunks } from "../analyze";
 
-const greenBadge = (label: string) => chalk.bgGreen.black(` ${label} `);
-const yellowBadge = (label: string) => chalk.bgYellow.black(` ${label} `);
-const redBadge = (label: string) => chalk.bgRed.black(` ${label} `);
-const cyanBadge = (label: string) => chalk.bgCyan.black(` ${label} `);
+const greenBadge = (label: string) => bgGreen(black(` ${label} `));
+const yellowBadge = (label: string) => bgYellow(black(` ${label} `));
+const redBadge = (label: string) => bgRed(black(` ${label} `));
+const cyanBadge = (label: string) => bgCyan(black(` ${label} `));
 const moduleBadge = () => yellowBadge("MODULE");
 const fileBadge = () => greenBadge("FILE");
-const entryPointBadge = () => chalk.magenta("[entry]");
-const directBadge = () => chalk.green("[direct]");
-const transitiveBadge = () => chalk.red("[transitive]");
+const entryPointBadge = () => magenta("[entry]");
+const directBadge = () => green("[direct]");
+const transitiveBadge = () => red("[transitive]");
 
-const sep = () => chalk.dim("––––––––––––––––––––");
+const sep = () => dim("––––––––––––––––––––");
 
 const isEntry = (reasons: Array<Reason>) =>
   reasons.length === 1 && reasons[0].type === "entry";
@@ -63,15 +74,15 @@ const printReasons = (
   const printReasonName = (name: string, by?: string) =>
     by === name ? cyanBadge(` ${name} `) : name;
   const printReasonNameModule = (name: string, by?: string) =>
-    by === name ? cyanBadge(` ${name} `) : chalk.yellow(name);
+    by === name ? cyanBadge(` ${name} `) : yellow(name);
 
   const tree = reasonsSubSet.reduce<treeify.TreeObject>(
     (acc, reason: Reason) => {
       if (reason.type === "file") {
         acc[
-          `${printReasonName(reason.moduleName, by)}  ${chalk.dim(
-            reason.loc
-          )}  ${chalk.dim("[" + reason.importType + "]")}`
+          `${printReasonName(reason.moduleName, by)}  ${dim(reason.loc)}  ${dim(
+            "[" + reason.importType + "]"
+          )}`
         ] = "null";
       } else if (reason.type === "module") {
         const subReasonsSubset = takeSubset(
@@ -81,9 +92,9 @@ const printReasons = (
         const subReasons = subReasonsSubset.reduce<treeify.TreeObject>(
           (acc, r: SubReason) => {
             acc[
-              `${printReasonName(r.moduleName, by)}  ${chalk.dim(
-                r.loc
-              )}  ${chalk.dim("[" + r.importType + "]")}`
+              `${printReasonName(r.moduleName, by)}  ${dim(r.loc)}  ${dim(
+                "[" + r.importType + "]"
+              )}`
             ] = "null";
             return acc;
           },
@@ -91,8 +102,7 @@ const printReasons = (
         );
 
         if (subReasonsSubset.length < (reason.reasons || []).length) {
-          subReasons[chalk.dim(`... ${reason.reasons.length - limit} more`)] =
-            "null";
+          subReasons[dim(`... ${reason.reasons.length - limit} more`)] = "null";
         }
 
         acc[
@@ -106,7 +116,7 @@ const printReasons = (
   );
 
   if (reasonsSubSet.length < reasons.length) {
-    tree[chalk.dim(`... ${reasons.length - limit} more`)] = "null";
+    tree[dim(`... ${reasons.length - limit} more`)] = "null";
   }
 
   return printTree(tree);
@@ -128,7 +138,7 @@ const printIncludedFiles = (files: Array<string>, limit: number) => {
   }, {});
 
   if (filesSubset.length < files.length) {
-    tree[chalk.dim(`... ${files.length - limit} more`)] = "null";
+    tree[dim(`... ${files.length - limit} more`)] = "null";
   }
 
   return printTree(tree);
@@ -136,7 +146,7 @@ const printIncludedFiles = (files: Array<string>, limit: number) => {
 
 const printType = (module: Module, limit: number, by?: string) => {
   const type = [
-    `├─ ${chalk.magenta("type")}: ${
+    `├─ ${magenta("type")}: ${
       module.depsType === "direct" ? directBadge() : transitiveBadge()
     }`,
   ];
@@ -146,9 +156,9 @@ const printType = (module: Module, limit: number, by?: string) => {
     const depsChains = depsChainsSubset.reduce<treeify.TreeObject>(
       (acc, chain) => {
         acc[
-          `${module.name} ${chalk.dim("->")} ${chain
+          `${module.name} ${dim("->")} ${chain
             .map((dep) => (dep === by ? cyanBadge(` ${dep} `) : dep))
-            .join(chalk.dim(" -> "))}`
+            .join(dim(" -> "))}`
         ] = "null";
         return acc;
       },
@@ -156,8 +166,7 @@ const printType = (module: Module, limit: number, by?: string) => {
     );
 
     if (depsChainsSubset.length < module.depsChains.length) {
-      depsChains[chalk.dim(`... ${module.depsChains.length - limit} more`)] =
-        "null";
+      depsChains[dim(`... ${module.depsChains.length - limit} more`)] = "null";
     }
 
     type.push(indent(printTree(depsChains)).join("\n"));
@@ -176,14 +185,18 @@ const printSize = (size: number, mod = false) => {
       : sizeInKiB < 20 && sizeInKiB > 10
       ? "yellow"
       : "default";
+  const levelColor = {
+    red: red,
+    yellow: yellow,
+  };
   const sizeFormatted =
     level === "unknown"
-      ? chalk.dim("unknown")
+      ? dim("unknown")
       : level === "default"
       ? sizeInKiB + " KiB"
-      : chalk[level](sizeInKiB + " KiB");
-  return `${chalk.magenta("size")}: ${sizeFormatted}${
-    mod ? chalk.dim(" [for all included files]") : ""
+      : levelColor[level](sizeInKiB + " KiB");
+  return `${magenta("size")}: ${sizeFormatted}${
+    mod ? dim(" [for all included files]") : ""
   }`;
 };
 
@@ -208,17 +221,15 @@ const printFile = (
   const chunksInfo = printChunkInfo(module, chunks);
   const entry = isEntry(module.reasons);
   return [
-    `${fileBadge()} ${chalk.green(module.name)}${
+    `${fileBadge()} ${green(module.name)}${
       entry ? " " + entryPointBadge() : ""
     }`,
-    `├─ ${chalk.magenta("imported")}: ${printImportedCount(module.imported)}`,
+    `├─ ${magenta("imported")}: ${printImportedCount(module.imported)}`,
     `├─ ${printSize(module.size)}`,
     chunksInfo &&
       chunksInfo.length &&
-      `${entry ? "└─" : "├─"} ${chalk.magenta("chunks")}: ${chunksInfo.join(
-        ", "
-      )}`,
-    !entry && `└─ ${chalk.magenta("reasons")}:`,
+      `${entry ? "└─" : "├─"} ${magenta("chunks")}: ${chunksInfo.join(", ")}`,
+    !entry && `└─ ${magenta("reasons")}:`,
     !entry && indent(printReasons(module.reasons, limit, by), " ").join("\n"),
   ].filter((msg) => !!msg);
 };
@@ -232,23 +243,23 @@ const printModule = (
   const chunksInfo = printChunkInfo(module, chunks);
   const entry = isEntry(module.reasons);
   return [
-    `${moduleBadge()} ${chalk.yellow(module.name)}${
+    `${moduleBadge()} ${yellow(module.name)}${
       entry ? " " + entryPointBadge() : ""
     }`,
-    `├─ ${chalk.magenta("imported")}: ${printImportedCount(module.imported)}`,
-    `├─ ${chalk.magenta("deps count")}: ${module.deps}`,
+    `├─ ${magenta("imported")}: ${printImportedCount(module.imported)}`,
+    `├─ ${magenta("deps count")}: ${module.deps}`,
     `├─ ${printSize(module.size, true)}`,
     printType(module, limit, by).join("\n"),
     chunksInfo &&
       chunksInfo.length &&
-      `├─ ${chalk.magenta("chunks")}: ${chunksInfo.join(", ")}`,
-    `├─ ${chalk.magenta("locations")}: ${
+      `├─ ${magenta("chunks")}: ${chunksInfo.join(", ")}`,
+    `├─ ${magenta("locations")}: ${
       module.locations.length > 1 ? redBadge("multiple") : ""
     }`,
     indent(printLocations(module.locations)).join("\n"),
-    `${entry ? "└─" : "├─"} ${chalk.magenta("files")}: `,
+    `${entry ? "└─" : "├─"} ${magenta("files")}: `,
     indent(printIncludedFiles(module.filesIncluded, limit)).join("\n"),
-    !entry && `└─ ${chalk.magenta("reasons")}:`,
+    !entry && `└─ ${magenta("reasons")}:`,
     !entry && indent(printReasons(module.reasons, limit, by), " ").join("\n"),
   ].filter((msg) => !!msg);
 };

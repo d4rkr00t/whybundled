@@ -1,10 +1,12 @@
+import { bgWhite } from "colorette";
+
 export type UpdateProgressBar = (param: {
   progress: number;
   title?: string;
   text?: string;
 }) => void;
 
-const chalk = require("chalk");
+const { dim, green, magenta } = require("colorette");
 
 function toStartOfLine(stdout: NodeJS.WriteStream) {
   stdout.write("\r");
@@ -37,9 +39,7 @@ export function createProgressBar(stdout = process.stdout): UpdateProgressBar {
         title.length
     );
     const completeLength = Math.round(progressBarSize * ratio);
-    const incompleteLength = progressBarSize - completeLength;
-
-    const completed = chalk.inverse(" ").repeat(completeLength);
+    const completed = bgWhite(" ").repeat(completeLength);
     const incompleted = "░".repeat(progressBarSize - completeLength);
     const infoLine =
       text.length > availableSpace
@@ -50,10 +50,8 @@ export function createProgressBar(stdout = process.stdout): UpdateProgressBar {
     toStartOfLine(stdout);
 
     stdout.write(
-      `⸨${completed}${incompleted}⸩ ${chalk.dim(
-        `${progress}%`
-      )} • ${chalk.green("info")} ${
-        title ? chalk.magenta(`${title}: `) : ""
+      `⸨${completed}${incompleted}⸩ ${dim(`${progress}%`)} • ${green("info")} ${
+        title ? magenta(`${title}: `) : ""
       }${infoLine}`
     );
 

@@ -1,11 +1,11 @@
-import chalk from "chalk";
+import { bgRed, black, red, bold, blue } from "colorette";
 
 export function log(msg: Array<string>) {
   console.log(msg.join("\n"));
 }
 
 function redBadge(label: string) {
-  return chalk.bgRed.black(` ${label} `);
+  return bgRed(black(` ${label} `));
 }
 
 function errorBadge() {
@@ -14,13 +14,13 @@ function errorBadge() {
 
 export function invalidStatsJson(file: string): Array<string> {
   return [
-    chalk.red(
-      `${errorBadge()} Stats file ${chalk.bold(
+    red(
+      `${errorBadge()} Stats file ${bold(
         `"${file}"`
       )} doesn't contain enough information...`
     ),
     "",
-    `Issue is possibly with missing "reasons" in webpack module stats. To add them check webpack documentation: ${chalk.blue(
+    `Issue is possibly with missing "reasons" in webpack module stats. To add them check webpack documentation: ${blue(
       "https://webpack.js.org/configuration/stats/#stats"
     )}`,
   ];

@@ -77,7 +77,7 @@
     "@discoveryjs/json-ext": "^0.5.2",
     "@types/micromatch": "^4.0.1",
     "@types/treeify": "^1.0.0",
-    "chalk": "^4.1.0",
+    "colorette": "^1.2.2",
     "micromatch": "^4.0.2",
     "@opaline/core": "^0.5.3",
     "treeify": "^1.1.0"
